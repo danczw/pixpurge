@@ -1,14 +1,17 @@
 use clap::Parser;
 use glob::{glob_with, MatchOptions};
-use std::fs::{self, File, FileTimes};
+use std::fs::File;
 use std::path::PathBuf;
-use std::time::SystemTime;
+
+mod purge;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Cli {
     #[arg(short, long)]
     path: PathBuf,
+    #[arg(short, long)]
+    time: bool,
 }
 
 fn main() {
@@ -27,15 +30,12 @@ fn main() {
     for entry in glob_with(traverse_pattern.as_str(), options).unwrap() {
         match entry {
             Ok(path) => {
-                let _dirt_data = fs::metadata(&path);
-                let clean_file = File::options().write(true).open(path).unwrap();
-                let times = FileTimes::new()
-                    .set_accessed(SystemTime::UNIX_EPOCH)
-                    .set_modified(SystemTime::UNIX_EPOCH);
+                println!("{:#?}", path); // TODO: remove
+                let mut file = File::options().write(true).open(path).unwrap();
 
-                clean_file
-                    .set_times(times)
-                    .expect("Error updating file times");
+                if cli.time {
+                    purge::time(&mut file);
+                }
             }
             Err(e) => println!("Error reading {:#?}", e),
         }
