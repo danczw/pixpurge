@@ -3,6 +3,7 @@
 # PixPurge - pxp
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Rust](https://github.com/danczw/pixpurge/actions/workflows/rust-ci.yml/badge.svg)
 
 **Purge metadata from pictures and safeguard your personal information. A CLI written in Rust.**
 
