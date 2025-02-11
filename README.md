@@ -12,7 +12,8 @@
 
 <br>
 
-_short tool descrption_
+_short tool description_
+
 _flag description_
 
 <br>
